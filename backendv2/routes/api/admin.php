@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Password\ChangeController;
 
 Route::middleware(['auth:sanctum'])->group(function () {
+
 // ---------------- PASSWORD URL's ---------------- //
 Route::post('changePassword', ChangeController::class)->name('changePassword');
 
@@ -26,14 +27,13 @@ Route::post('position/update/{id}', [App\Http\Controllers\PositionController::cl
 Route::delete('position/delete/{id}', [App\Http\Controllers\PositionController::class, 'deleteProfile']);
 
 // ---------------- JUSTIFICATIONS URL's ---------------- //
-Route::get('justification', [App\Http\Controllers\JustificationController::class, 'getJustifications']);
+Route::get('justification/list', [App\Http\Controllers\JustificationController::class, 'getJustifications']);
 Route::post('justification/create', [App\Http\Controllers\JustificationController::class, 'createJustifications']);
 
 Route::post('justification/accept/{id}', [App\Http\Controllers\JustificationController::class, 'acceptJustifications']);
 Route::post('justification/decline/{id}', [App\Http\Controllers\JustificationController::class, 'declineJustifications']);
 
 // ---------------- USERS URL´s ---------------------- //
-
 Route::get('users', [App\Http\Controllers\UserController::class, 'index']);
 Route::get('users/{id}', [App\Http\Controllers\UserController::class, 'show']);
 Route::get('users/{id}/update', [App\Http\Controllers\UserController::class, 'update']);
@@ -53,6 +53,11 @@ Route::get('attendance/procedure', [App\Http\Controllers\AttendanceController::c
 Route::get('evaluation/list', [App\Http\Controllers\EvaluationController::class, 'getEvaluations']);
 Route::post('evaluation/create', [App\Http\Controllers\EvaluationController::class, 'createEvaluation']);
 Route::post('evaluation/notes/{id}', [App\Http\Controllers\EvaluationController::class, 'storeNotes']);
+
+// ---------------- SCHEDULE URL's --------------- //
+Route::get('schedule/list', [App\Http\Controllers\EvaluationController::class, 'getSchedules']);
+Route::post('schedule/check', [App\Http\Controllers\EvaluationController::class, 'checkAttendance']);
+Route::post('schedule/create', [App\Http\Controllers\EvaluationController::class, 'createSchedule']);
 
 });
 
