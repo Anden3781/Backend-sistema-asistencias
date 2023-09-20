@@ -29,6 +29,10 @@ class JustificationService {
             $query->where('user_id', Auth::user()->id);
         }
 
+        if (isset($filters['exclude_user'])) {
+            $query->where('user_id', '!=' , Auth::user()->id);
+        }
+
         if (isset($filters['shift'])) {
             $query->whereHas('User.position', function ($q) use ($filters) {
                 $q->where('shift', $filters['shift']);

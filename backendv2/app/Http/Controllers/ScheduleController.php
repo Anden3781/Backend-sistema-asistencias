@@ -15,7 +15,7 @@ class ScheduleController extends Controller
 
     public function createSchedule(Request $request)
     {
-        $authUser = auth()->user()->id();
+        $authUser = auth()->id();
 
         $request['user_id'] = $authUser; 
 
