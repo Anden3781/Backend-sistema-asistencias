@@ -25,7 +25,14 @@ class AttendanceService {
     }
 
     private function isLateForCheckIn($checkInTime) {
-        $checkInLimit = new DateTime('08:11', new DateTimeZone('America/Lima'));
+        $currentTime = now();
+
+        if ($currentTime->format('H:i') > '13:00') {
+            $checkInLimit = new DateTime('14:11', new DateTimeZone('America/Lima'));
+        } else {
+            $checkInLimit = new DateTime('08:11', new DateTimeZone('America/Lima'));
+        }
+
         $checkInTime = new DateTime($checkInTime, new DateTimeZone('America/Lima'));
 
         return $checkInTime > $checkInLimit;
@@ -67,7 +74,7 @@ class AttendanceService {
             ->whereDate('date', $currentTime->toDateString())
             ->firstOrNew();
 
-        if ($attendance->attendance == 0 && $attendance->delay == 0) {
+        if ($attendance->attendance == 0 && $attendance->delay == 0) { //Validacion de base de datos
             $this->updateCheckIn($attendance, $currentTime, $data['admission_image'], $authUser);
         } else {
             $this->updateCheckOut($attendance, $currentTime, $data['departure_image']);
