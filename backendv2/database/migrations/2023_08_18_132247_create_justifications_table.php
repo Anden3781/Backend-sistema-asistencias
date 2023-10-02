@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('justifications', function (Blueprint $table) {
             $table->id();
             $table->date('justification_date');
+            //$table->date('justification_date_end');
             $table->string('reason');
             $table->string('evidence');
             $table->boolean('type');

@@ -11,6 +11,7 @@ class Justification extends Model
 
     protected $fillable = [
         'justification_date',
+        'justification_date_end',
         'reason',
         'evidence',
         'type',

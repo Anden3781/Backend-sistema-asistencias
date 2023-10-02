@@ -99,9 +99,6 @@ class JustificationService {
         //Redireccion de imagen a carpeta local
         $data['evidence'] = $this->uploadImage($data['evidence']);
 
-        //Guardado de ruta en base de datos
-        //$data["justification_date"] = $data["justification_date"];
-
         return $this->justificationRepository->create($data);
     }
 

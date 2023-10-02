@@ -11,6 +11,7 @@ use DateTime;
 use DateTimeZone;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Models\Justification;
+use App\Models\User;
 
 class AttendanceService {
     protected $attendanceRepository;
@@ -24,18 +25,18 @@ class AttendanceService {
         return Attendance::filter($filters)->paginate(10);
     }
 
-    private function isLateForCheckIn($checkInTime) {
+    private function isLateForCheckIn($stime) {
         $currentTime = now();
 
-        if ($currentTime->format('H:i') > '13:00') {
-            $checkInLimit = new DateTime('14:11', new DateTimeZone('America/Lima'));
-        } else {
-            $checkInLimit = new DateTime('08:11', new DateTimeZone('America/Lima'));
-        }
+        // if ($currentTime->format('H:i') > '13:00') {
+        //     $checkInLimit = new DateTime('14:11', new DateTimeZone('America/Lima'));
+        // } else {
+        //     $checkInLimit = new DateTime('08:11', new DateTimeZone('America/Lima'));
+        // }
+        
+        //$checkInTime = new DateTime($checkInTime, new DateTimeZone('America/Lima'));
 
-        $checkInTime = new DateTime($checkInTime, new DateTimeZone('America/Lima'));
-
-        return $checkInTime > $checkInLimit;
+        return $currentTime > $stime;
     }
 
     private function uploadImage($image) {
@@ -55,42 +56,58 @@ class AttendanceService {
         $authUser = auth()->user();
 
         $justificationExists = Justification::where('user_id', $authUser->id)
-            ->whereDate('justification_date', $today) //Falta condicional del status != 3
-            ->first('type');
+            ->whereDate('justification_date', $today)
+            ->first();
 
-        if (is_null($justificationExists)){
-            return $flag;
+        //print($justificationExists);
+        //exit();
+
+        if (!is_null($justificationExists->justification_date_end)){
+            $user = User::where('id', $justificationExists->user_id);
+            if ($user) {
+                $user->update(['status' => false]);
+            }
         } else {
-            return $justificationExists->type; // 0 | 1
+            if (is_null($justificationExists)){
+                return $flag;
+            } else {
+                return $justificationExists->type; // 0 | 1
+            }
         }
     }
 
-    public function store(array $data)
+    public function store($data, $stime, $etime)
     {
         $authUser = auth()->id();
         $currentTime = now();
         
+        //Validamos si ya hay un registro
         $attendance = Attendance::where('user_id', $authUser)
             ->whereDate('date', $currentTime->toDateString())
             ->firstOrNew();
 
-        if ($attendance->attendance == 0 && $attendance->delay == 0) { //Validacion de base de datos
-            $this->updateCheckIn($attendance, $currentTime, $data['admission_image'], $authUser);
+        //Validacion de base de datos
+        if ($attendance->attendance == 0 && $attendance->delay == 0) {
+            $this->updateCheckIn($attendance, $stime, $data['admission_image']);
         } else {
-            $this->updateCheckOut($attendance, $currentTime, $data['departure_image']);
+            $this->updateCheckOut($attendance, $data['departure_image']);
         }
 
         return $attendance;
     }
     
-    protected function updateCheckIn($attendance, $currentTime, $imagePath, $authUser)
+    protected function updateCheckIn($attendance, $stime, $imagePath)
     {
+        $authUser = auth()->id();
+        $currentTime = now();
+
+        //Asignamos los datos a los campos del attendance
         $attendance->admission_time = $currentTime->format('H:i');
         $attendance->admission_image = $this->uploadImage($imagePath);
         $attendance->user_id = $authUser;
         $attendance->date = $currentTime->format('Y-m-d');
     
-        if ($this->isLateForCheckIn($attendance->admission_time)) {
+        if ($this->isLateForCheckIn($stime)) {
             $type = $this->hasJustification();
 
             if ($type == 2) {
@@ -107,8 +124,10 @@ class AttendanceService {
         $attendance->save();
     }
 
-    protected function updateCheckOut($attendance, $currentTime, $imagePath)
-    {
+    protected function updateCheckOut($attendance, $imagePath)
+    {   
+        $currentTime = now();
+
         $attendance->departure_time = $currentTime->format('H:i');
         $attendance->departure_image = $this->uploadImage($imagePath);
         $attendance->save();
