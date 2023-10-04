@@ -46,7 +46,8 @@ class ScheduleController extends Controller
             $etime = $schedule->end_time;
 
             //Data -> admission_image
-            $attendanceService->store($data, $stime, $etime);
+            $attendance = $attendanceService->store($data, $stime, $etime);
+            return $attendance;
         }
     }
     

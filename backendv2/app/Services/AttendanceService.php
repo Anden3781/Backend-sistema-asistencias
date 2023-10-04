@@ -59,20 +59,21 @@ class AttendanceService {
             ->whereDate('justification_date', $today)
             ->first();
 
-        //print($justificationExists);
-        //exit();
-
-        if (!is_null($justificationExists->justification_date_end)){
-            $user = User::where('id', $justificationExists->user_id);
-            if ($user) {
-                $user->update(['status' => false]);
+        if ($justificationExists){
+            if (!is_null($justificationExists->justification_date_end)){
+                $user = User::where('id', $justificationExists->user_id);
+                if ($user) {
+                    $user->update(['status' => false]);
+                }
+            } else {
+                if (is_null($justificationExists)){
+                    return $flag;
+                } else {
+                    return $justificationExists->type; // 0 | 1
+                }
             }
         } else {
-            if (is_null($justificationExists)){
-                return $flag;
-            } else {
-                return $justificationExists->type; // 0 | 1
-            }
+            return $flag;
         }
     }
 
