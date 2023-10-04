@@ -77,7 +77,7 @@ class AttendanceService {
         }
     }
 
-    public function store($data, $stime, $etime)
+    public function store($data, $stime)
     {
         $authUser = auth()->id();
         $currentTime = now();

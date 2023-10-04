@@ -26,11 +26,11 @@ class AttendanceController extends Controller
         return response()->json($attendances);
     }
 
-    // public function createAttendance(Request $request)
-    // {
-    //     $attendance = $this->attendanceService->store($request->all());
-    //     return response()->json(['message' => 'Asistencia marcada con exito', 'data' => $attendance]);
-    // }
+    public function createAttendance(Request $request, $stime)
+    {
+        $attendance = $this->attendanceService->store($request->all(), $stime);
+        return response()->json(['message' => 'Asistencia marcada con exito', 'data' => $attendance]);
+    }
 
     public function show()
     {
