@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Attendance;
 use App\Models\Schedule;
-use App\Services\AttendanceService;
-use DateInterval;
 use DateTime;
 use Illuminate\Http\Request;
 
@@ -27,33 +25,28 @@ class ScheduleController extends Controller
         return response()->json(['message' => 'Horario creado exitosamente.', 'data' => $schedule], 201);
     }
 
-    public function checkAttendance(DateTime $currentTime, Request $data)
+    public function checkAttendance(DateTime $currentTime)
     {
         $authUser = auth()->user();
 
         print($currentTime->format('w'));
 
         // Obtener el horario del usuario para el día actual
-        $schedule = Schedule::where('day_of_week', $currentTime->format('w'))
-                            ->where('user_id', $authUser->id)
-                            ->first();
-    
+        $schedule = Schedule::where('day_of_week', $currentTime->format('w'))->where('user_id', $authUser->id)->first();
+
         if (!$schedule) {
             // No tiene horario definido para el día actual
             return 'Sin horario';
+        }
+
+        if ($currentTime < $schedule->start_time) {
+            return 'A tiempo';
+        } elseif ($currentTime > $schedule->start_time && $currentTime < $schedule->end_time) {
+            return 'Llegó tarde';
+        } elseif ($currentTime > $schedule->end_time) {
+            return 'Salió temprano';
         } else {
-            //Llamar a la funcion attendance store
-            $attendanceController = app(AttendanceController::class);
-
-            $stime = $schedule->start_time;
-            //$etime = $schedule->end_time;
-
-            //Data -> admission_image
-            $attendance = $attendanceController->createAttendance($data, $stime);
-
-            //$attendance = $attendanceService->store($data, $stime, $etime);
-            return $attendance;
+            return 'Hora correcta de salida';
         }
     }
-    
 }

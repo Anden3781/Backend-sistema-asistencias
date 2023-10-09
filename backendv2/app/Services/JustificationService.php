@@ -63,7 +63,12 @@ class JustificationService {
         $justifications = $query->paginate(6);
 
         // Agregar la propiedad image_url a cada usuario en las justificaciones
-        $justifications->getCollection()->transform(function ($justification) {
+        //$justifications->getCollection()->transform(function ($justification) {
+            //$justification->user->image_url = $justification->user->getImageUrlAttribute();
+            //return $justification;
+        //});
+
+        $justifications = collect($justifications)->map(function ($justification) {
             $justification->user->image_url = $justification->user->getImageUrlAttribute();
             return $justification;
         });
@@ -98,6 +103,9 @@ class JustificationService {
 
         //Redireccion de imagen a carpeta local
         $data['evidence'] = $this->uploadImage($data['evidence']);
+
+        //Guardado de ruta en base de datos
+        //$data["justification_date"] = $data["justification_date"];
 
         return $this->justificationRepository->create($data);
     }
