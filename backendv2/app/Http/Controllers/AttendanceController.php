@@ -21,7 +21,7 @@ class AttendanceController extends Controller
 
     public function getAttendances(Request $request)
     {
-        $filters = $request->all(); 
+        $filters = $request->all();
         $attendances = $this->attendanceService->getFilteredAttendances($filters);
         return response()->json($attendances);
     }
@@ -36,9 +36,10 @@ class AttendanceController extends Controller
     {
         //Recogemos el ID del usuario logeado
         $user_id = auth()->id();
+        $today = date('Y-m-d');
 
         // Obtener el registro de asistencia del usuario para el usuario actualmente logeado
-        $attendance = Attendance::where('user_id', $user_id)->get();
+        $attendance = Attendance::where('user_id', $user_id)->where('date', $today)->get();
 
         //Retornamos la respuesta en formato JSON
         return response()->json(['attendance' => $attendance]);
