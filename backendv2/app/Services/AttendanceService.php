@@ -76,11 +76,7 @@ class AttendanceService {
             ->firstOrNew();
 
         if ($attendance->attendance == 0 && $attendance->delay == 0) { //Validacion de base de datos
-            if ($attendance->admission_time != '00:00:00') {
-                $this->updateCheckOut($attendance, $currentTime, $data['departure_image']);
-            } else {
-                $this->updateCheckIn($attendance, $currentTime, $data['admission_image'], $authUser);
-            }
+            $this->updateCheckIn($attendance, $currentTime, $data['admission_image'], $authUser);
         } else {
             $this->updateCheckOut($attendance, $currentTime, $data['departure_image']);
         }
