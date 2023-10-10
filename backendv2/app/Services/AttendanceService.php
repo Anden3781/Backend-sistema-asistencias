@@ -69,13 +69,18 @@ class AttendanceService {
     {
         $authUser = auth()->id();
         $currentTime = now();
-        
+        $today = date('Y-m-d');
+
         $attendance = Attendance::where('user_id', $authUser)
-            ->whereDate('date', $currentTime->toDateString())
+            ->whereDate('date', $today)
             ->firstOrNew();
 
         if ($attendance->attendance == 0 && $attendance->delay == 0) { //Validacion de base de datos
-            $this->updateCheckIn($attendance, $currentTime, $data['admission_image'], $authUser);
+            if ($attendance->admission_time != '00:00:00') {
+                $this->updateCheckOut($attendance, $currentTime, $data['departure_image']);
+            } else {
+                $this->updateCheckIn($attendance, $currentTime, $data['admission_image'], $authUser);
+            }
         } else {
             $this->updateCheckOut($attendance, $currentTime, $data['departure_image']);
         }
