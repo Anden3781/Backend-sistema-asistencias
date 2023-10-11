@@ -20,9 +20,12 @@ class BirthdayController extends Controller
 
         if (!empty($day)) {
             $query->whereDay('birthday', $day);
-        }
+        }  
 
-        $upcomingBirthdays = $query->orderByRaw('DAY(birthday)')->get(); // 'EXTRACT(DAY FROM birthday)'
+        //MYSQL : DAY(birthday)
+        //POSTGRESQL: EXTRACT(DAY FROM birthday)
+
+        $upcomingBirthdays = $query->orderByRaw('EXTRACT(DAY FROM birthday)')->get();
 
         // Agregar la URL de la imagen a cada usuario
         foreach ($upcomingBirthdays as $user) {
@@ -36,11 +39,15 @@ class BirthdayController extends Controller
         $currentDate = now();
         $userShift = auth()->user()->shift; // Obtener el turno del usuario logeado
 
+        //MYSQL : DAY(birthday)
+        //POSTGRESQL: EXTRACT(DAY FROM birthday)
+
         $upcomingBirthdays = User::whereMonth('birthday', $currentDate->month)->with('position.core.department')
             ->whereDay('birthday', '>=', $currentDate->day)
             ->where('shift', $userShift) // Filtrar por turno
             ->orderByRaw('DAY(birthday)') // 'EXTRACT(DAY FROM birthday)'
             ->get();
+
         // Agregar la URL de la imagen a cada usuario
         foreach ($upcomingBirthdays as $user) {
             $user->image_url = $user->getImageUrlAttribute();
