@@ -47,7 +47,7 @@ Route::get('attendance', [App\Http\Controllers\AttendanceController::class, 'get
 Route::post('attendance/create', [App\Http\Controllers\AttendanceController::class, 'createAttendance']);
 Route::post('attendance/id', [App\Http\Controllers\AttendanceController::class, 'show']);
 
-Route::get('attendance/procedure', [App\Http\Controllers\AttendanceController::class, 'callDatabaseProcedure']);
+Route::post('attendance/procedure', [App\Http\Controllers\AttendanceController::class, 'callDatabaseProcedure']);
 
 // ---------------- EVALUATION URL's --------------- //
 Route::get('evaluation/list', [App\Http\Controllers\EvaluationController::class, 'getEvaluations']);
