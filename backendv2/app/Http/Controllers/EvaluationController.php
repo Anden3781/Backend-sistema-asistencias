@@ -38,7 +38,7 @@ class EvaluationController extends Controller
     public function searchEvaluationByUser($userId){
         $evaluation = Evaluation::where('user_id', $userId)->get();
 
-        if (is_null($evaluation)) { 
+        if (!is_null($evaluation)) { 
             return response()->json(['data' => $evaluation]);
         } else {  
             return response()->json(['message' => 'Esta usuario no tiene asignado ninguna evaluacion']);
