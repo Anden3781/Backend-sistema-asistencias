@@ -27,7 +27,12 @@ class EvaluationController extends Controller
 
     public function searchEvaluationById($id){
         $evaluation = Evaluation::find($id);
-        return response()->json(['data' => $evaluation]);
+
+        if ($evaluation) { 
+            return response()->json(['data' => $evaluation]);
+        } else {  
+            return response()->json(['Esta evaluacion no existe, porfavor ingrese otro ID']);
+        }
     }
 
     public function storeNotes(Request $request, $id)
