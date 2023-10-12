@@ -35,6 +35,16 @@ class EvaluationController extends Controller
         }
     }
 
+    public function searchEvaluationByUser($userId){
+        $evaluation = Evaluation::where('user_id', $userId)->get();
+
+        if (is_null($evaluation)) { 
+            return response()->json(['data' => $evaluation]);
+        } else {  
+            return response()->json(['message' => 'Esta usuario no tiene asignado ninguna evaluacion']);
+        }
+    }
+
     public function storeNotes(Request $request, $id)
     {
         $evaluation = $this->evaluationService->storeEvaluationNotes($request->all(), $id);
