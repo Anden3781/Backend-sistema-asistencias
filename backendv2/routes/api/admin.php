@@ -49,6 +49,7 @@ Route::post('attendance/id', [App\Http\Controllers\AttendanceController::class, 
 
 // ---------------- EVALUATION URL's --------------- //
 Route::get('evaluation/list', [App\Http\Controllers\EvaluationController::class, 'getEvaluations']);
+Route::get('evaluation/{id}', [App\Http\Controllers\EvaluationController::class, 'searchEvaluationById']);
 Route::post('evaluation/create', [App\Http\Controllers\EvaluationController::class, 'createEvaluation']);
 Route::post('evaluation/notes/{id}', [App\Http\Controllers\EvaluationController::class, 'storeNotes']);
 
