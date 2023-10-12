@@ -30,7 +30,7 @@ class EvaluationService {
     public function storeEvaluationNotes(array $data, $id){
         // Buscar si ya existen notas para la evaluación con el ID dado
         $existingEvaluation = Evaluation::find($id);
-        $user_id = auth()->id();
+        //$user_id = auth()->id();
 
         if (!$existingEvaluation) {
             // Ya existen notas para esta evaluación, devolver un mensaje de error
@@ -44,7 +44,7 @@ class EvaluationService {
             $existingEvaluation->autoevaluation = $data['autoevaluation'];
 
             //Accedemos al rol del usuario logueado
-            $roleId = ModelHasRole::where('model_id', $user_id)->get('role_id');
+            $roleId = ModelHasRole::where('model_id', $existingEvaluation->user_id)->get('role_id');
             $rol = $roleId[0]->role_id;
 
             //Calculamos el promedio en base a los roles del usuario logueado
