@@ -39,8 +39,8 @@ class EvaluationService {
             $existingEvaluation->hardskills = $data['hardskills'];
             $existingEvaluation->autoevaluation = $data['autoevaluation'];
             $existingEvaluation->save();
-            
-            return response()->json(['message' => 'Notas de evaluación registradas con éxito', 'data' => $evaluation]);
+
+            return response()->json(['message' => 'Notas de evaluación registradas con éxito', 'data' => $existingEvaluation]);
         }   
     }
     
