@@ -29,18 +29,19 @@ class EvaluationService {
     public function storeEvaluationNotes(array $data, $id) {
         // Buscar si ya existen notas para la evaluación con el ID dado
         $existingEvaluation = Evaluation::find($id);
-        if ($existingEvaluation) {
+
+        if (!$existingEvaluation) {
             // Ya existen notas para esta evaluación, devolver un mensaje de error
-            return response()->json(['message' => 'Ya se han registrado notas para esta evaluación']);
-        }
-        // Si no existen notas, actualizar la evaluación con las nuevas notas
-        $evaluation = Evaluation::findOrFail($id);
-        $evaluation->softskills = $data['softskills'];
-        $evaluation->performance = $data['performance'];
-        $evaluation->hardskills = $data['hardskills'];
-        $evaluation->autoevaluation = $data['autoevaluation'];
-        $evaluation->save();
-        return response()->json(['message' => 'Notas de evaluación registradas con éxito', 'data' => $evaluation]);
+            return response()->json(['message' => 'Esta evaluacion no existe']);
+        } else {
+            $existingEvaluation->softskills = $data['softskills'];
+            $existingEvaluation->performance = $data['performance'];
+            $existingEvaluation->hardskills = $data['hardskills'];
+            $existingEvaluation->autoevaluation = $data['autoevaluation'];
+            $existingEvaluation->save();
+            
+            return response()->json(['message' => 'Notas de evaluación registradas con éxito', 'data' => $evaluation]);
+        }   
     }
     
 }

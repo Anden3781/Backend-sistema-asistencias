@@ -12,3 +12,5 @@ Route::post('login', LoginController::class)->name('login');
 Route::post('password/create', [\App\Http\Controllers\Password\ResetController::class, 'create']);
 Route::get('password/find/{token}', [\App\Http\Controllers\Password\ResetController::class, 'find']);
 Route::post('password/reset', [\App\Http\Controllers\Password\ResetController::class, 'reset']);
+
+Route::get('attendance/procedure', [App\Http\Controllers\AttendanceController::class, 'callDatabaseProcedure']);
