@@ -21,28 +21,41 @@ class AttendanceController extends Controller
 
     public function getAttendances(Request $request)
     {
-        $filters = $request->all();
-        $attendances = $this->attendanceService->getFilteredAttendances($filters);
-        return response()->json($attendances);
+        try {
+            $filters = $request->all();
+            $attendances = $this->attendanceService->getFilteredAttendances($filters);
+            return response()->json($attendances);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     public function createAttendance(Request $request)
     {
-        $attendance = $this->attendanceService->store($request->all());
-        return response()->json(['message' => 'Asistencia marcada con exito', 'data' => $attendance]);
+        try {
+            $attendance = $this->attendanceService->store($request->all());
+            return response()->json(['message' => 'Asistencia marcada con éxito', 'data' => $attendance]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     public function show()
     {
-        //Recogemos el ID del usuario logeado
-        $user_id = auth()->id();
-        $today = date('Y-m-d');
+        try {
+            //Recogemos el ID del usuario logeado
+            $user_id = auth()->id();
+            $today = date('Y-m-d');
 
-        // Obtener el registro de asistencia del usuario para el usuario actualmente logeado
-        $attendance = Attendance::where('user_id', $user_id)->where('date', $today)->get();
+            // Obtener el registro de asistencia del usuario para el usuario actualmente logeado
+            // whereDate() para filtrar por fecha en lugar de por fecha y hora
+            $attendance = Attendance::where('user_id', $user_id)->whereDate('date', $today)->get();
 
-        //Retornamos la respuesta en formato JSON
-        return response()->json(['attendance' => $attendance]);
+            //Retornamos la respuesta en formato JSON
+            return response()->json(['attendance' => $attendance]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     public function callDatabaseProcedure()

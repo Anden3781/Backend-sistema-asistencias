@@ -16,7 +16,7 @@ class EvaluationService {
     }
 
     public function getAllEvaluations() {
-        $eva = Evaluation::with(['user', 'evaluationType', 'notes'])->get();
+        $eva = Evaluation::with(['user'])->get();
         return $eva;
     }
 
@@ -27,21 +27,20 @@ class EvaluationService {
     }
 
     public function storeEvaluationNotes(array $data, $id) {
-        // Buscar si ya existe una nota para la evaluación con el ID dado
-        $existingNote = Note::where('evaluation_id', $id)->first();
-    
-        if ($existingNote) {
-            // Ya existe una nota para esta evaluación, devolver un mensaje de error
-            return response()->json(['message' => 'Ya se ha registrado una nota para esta evaluación']);
+        // Buscar si ya existen notas para la evaluación con el ID dado
+        $existingEvaluation = Evaluation::find($id);
+        if ($existingEvaluation) {
+            // Ya existen notas para esta evaluación, devolver un mensaje de error
+            return response()->json(['message' => 'Ya se han registrado notas para esta evaluación']);
         }
-    
-        // Si no existe una nota, crear una nueva
-        $newNote = new Note();
-        $newNote->evaluation_id = $id;
-        $newNote->note = $data['note'];
-        $newNote->save();
-    
-        return response()->json(['message' => 'Nota registrada con exito', 'data' => $newNote]);
+        // Si no existen notas, actualizar la evaluación con las nuevas notas
+        $evaluation = Evaluation::findOrFail($id);
+        $evaluation->softskills = $data['softskills'];
+        $evaluation->performance = $data['performance'];
+        $evaluation->hardskills = $data['hardskills'];
+        $evaluation->autoevaluation = $data['autoevaluation'];
+        $evaluation->save();
+        return response()->json(['message' => 'Notas de evaluación registradas con éxito', 'data' => $evaluation]);
     }
     
 }

@@ -12,7 +12,10 @@ class Evaluation extends Model
     protected $fillable = [
         'date',
         'user_id',
-        'evaluation_type'
+        'softskills',
+        'hardskills',
+        'performance',
+        'autoevaluation'
     ];
 
     protected $hidden = [
@@ -24,12 +27,4 @@ class Evaluation extends Model
       return $this->belongsTo(User::class);
     }
 
-    public function evaluationType(){
-      return $this->belongsTo(EvaluationTypes::class, 'id');
-    }
-   
-    public function notes()  
-    {
-      return $this->hasMany(Note::class); 
-    }
 }
