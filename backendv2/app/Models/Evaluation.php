@@ -15,7 +15,8 @@ class Evaluation extends Model
         'softskills',
         'hardskills',
         'performance',
-        'autoevaluation'
+        'autoevaluation',
+        'promedio'
     ];
 
     protected $hidden = [

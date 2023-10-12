@@ -36,7 +36,6 @@ class EvaluationService {
             // Ya existen notas para esta evaluación, devolver un mensaje de error
             return response()->json(['message' => 'Esta evaluacion no existe']);
         } else {
-
             //Guardamos la información en la evaluacion
             $existingEvaluation->softskills = $data['softskills'];
             $existingEvaluation->performance = $data['performance'];
@@ -47,18 +46,23 @@ class EvaluationService {
             $roleId = ModelHasRole::where('model_id', $existingEvaluation->user_id)->get('role_id');
             $rol = $roleId[0]->role_id;
 
+            //print($rol);
+
             //Calculamos el promedio en base a los roles del usuario logueado
-            if ($rol == 2) {
+            if ($rol == 2 || $rol == 1 || $rol == 4) {
                 $prom = $existingEvaluation->autoevaluation;
             } elseif ($rol == 3) {
                 $prom = ($existingEvaluation->hardskills + $existingEvaluation->performance +  $existingEvaluation->softskills) / 3;
-            }
+            } 
+
+            //Guardamos el promedio en base de datos
+            $existingEvaluation->promedio = $prom;
 
             //Guardamos la informacion en base de datos
             $existingEvaluation->save();
 
             //Retornamos la respuesta en formato JSON
-            return response()->json(['message' => 'Notas de evaluación registradas con éxito', 'data' => $existingEvaluation, 'prom' => $prom]);
+            return response()->json(['message' => 'Notas de evaluación registradas con éxito', 'data' => $existingEvaluation]);
         }   
     }
     
