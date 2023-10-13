@@ -23,6 +23,7 @@ class CoresController extends Controller
             return response()->json(['message' => 'Error al obtener los nucleos.'], 500);
         }
     }
+
     // Crear un nuevo nucleo en la base de datos
     public function createCore(Request $request)
     {
@@ -56,6 +57,7 @@ class CoresController extends Controller
             return response()->json(['message' => 'Error al crear el nucleo.'], 500);
         }
     }
+
     public function updateCore(Request $request, $id)
     {
         try {
@@ -99,6 +101,7 @@ class CoresController extends Controller
             return response()->json(['message' => 'Error al actualizar el nucleo.'], 500);
         }
     }
+    
     // Borrar un nucleo en la base de datos
     public function deleteCore($id)
     {

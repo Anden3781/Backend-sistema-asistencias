@@ -22,6 +22,7 @@ class DepartmentsController extends Controller
             return response()->json(['message' => 'Error al obtener los departamentos.'], 500);
         }
     }
+
     // Crear un nuevo departamento en la base de datos
     public function createDepartment(Request $request)
     {
@@ -46,6 +47,7 @@ class DepartmentsController extends Controller
             return response()->json(['message' => 'Error al crear el departamento.'], 500);
         }
     }
+
     // Actualizar un departamento en la base de datos
     public function updateDepartment(Request $request, $id)
     {
@@ -77,6 +79,7 @@ class DepartmentsController extends Controller
             return response()->json(['message' => 'Error al actualizar el departamento.'], 500);
         }
     }
+    
     public function deleteDepartment($id)
     {
         try {

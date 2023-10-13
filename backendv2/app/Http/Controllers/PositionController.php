@@ -16,6 +16,7 @@ class PositionController extends Controller
     {
         $this->positionService = $positionService;
     }
+
     public function getProfiles()
     {
         try {
@@ -28,6 +29,7 @@ class PositionController extends Controller
             return response()->json(['message' => 'Error al obtener los perfiles.'], 500);
         }
     }
+
     public function createProfile(Request $request)
     {
         try {
@@ -48,6 +50,7 @@ class PositionController extends Controller
             return response()->json(['message' => 'Error al crear el perfil.'], 500);
         }
     }
+
     public function updateProfile(Request $request, $id)
     {
         try {
@@ -76,6 +79,7 @@ class PositionController extends Controller
             return response()->json(['message' => 'Error al actualizar el perfil.'], 500);
         }
     }
+    
     public function deleteProfile($id)
     {
         try {

@@ -14,6 +14,7 @@ class PositionService {
     public function __construct(PositionRepositoryInterface $positionRepository) {
         $this->positionRepository = $positionRepository;
     }
+
     public function getAllPositions() {
         try {
             $cores = Position::with('core.department')->get();
@@ -22,6 +23,7 @@ class PositionService {
             throw new \Exception('Error al obtener todas las posiciones.', 500);
         }
     }
+
     public function createPosition(array $data) {
         try {
             if (Core::find($data['core_id'])) {
@@ -32,6 +34,7 @@ class PositionService {
             throw new \Exception('Error al crear la posición.', 500);
         }
     }
+    
     public function updatePosition(int $id, array $data) {
         try {
             if (Core::find($data['core_id'])) {
@@ -44,6 +47,7 @@ class PositionService {
             throw new \Exception('Error al actualizar la posición.', 500);
         }
     }
+    
     public function deletePosition(int $id) {
         try {
             return $this->positionRepository->delete($id);

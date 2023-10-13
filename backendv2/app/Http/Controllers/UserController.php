@@ -50,6 +50,4 @@ class UserController extends Controller
             return response()->json(['error' => 'User update failed'], 500);
         }
     }
-
-
 }

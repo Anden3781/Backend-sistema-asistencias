@@ -15,6 +15,7 @@ class EvaluationService {
     public function __construct(EvaluationRepositoryInterface $evaluationRepository) {
         $this->evaluationRepository = $evaluationRepository;
     }
+
     public function getAllEvaluations() {
         try {
             $eva = Evaluation::with(['user'])->get();
@@ -23,6 +24,7 @@ class EvaluationService {
             throw new \Exception('Error al obtener todas las evaluaciones.', 500);
         }
     }
+
     public function createEvaluations(array $data) {
         try {
             $date = date('Y-m-d');
@@ -32,6 +34,7 @@ class EvaluationService {
             throw new \Exception('Error al crear las evaluaciones.', 500);
         }
     }
+    
     public function storeEvaluationNotes(array $data, $id){
         try {
             // Buscar si ya existen notas para la evaluación con el ID dado

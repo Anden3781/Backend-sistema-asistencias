@@ -17,6 +17,7 @@ class AttendanceService {
     public function __construct(AttendanceRepositoryInterface $attendanceRepository) {
         $this->attendanceRepository = $attendanceRepository;
     }
+
     public function getFilteredAttendances(array $filters): LengthAwarePaginator
     {
         try {
@@ -25,6 +26,7 @@ class AttendanceService {
             throw new \Exception('Error al obtener las asistencias.', 500);
         }
     }
+
     private function isLateForCheckIn($checkInTime) {
         $currentTime = now();
         if ($currentTime->format('H:i') > '13:00') {
@@ -35,6 +37,7 @@ class AttendanceService {
         $checkInTime = new DateTime($checkInTime, new DateTimeZone('America/Lima'));
         return $checkInTime > $checkInLimit;
     }
+
     private function uploadImage($image) {
         try {
             // Subir imagen al servidor
@@ -48,6 +51,7 @@ class AttendanceService {
             throw new \Exception('Error al subir la imagen.', 500);
         }
     }
+
     private function hasJustification() {
         try {
             $flag = 2;
@@ -65,6 +69,7 @@ class AttendanceService {
             throw new \Exception('Error al verificar la justificación.', 500);
         }
     }
+
     public function store(array $data)
     {
         try {
@@ -84,6 +89,7 @@ class AttendanceService {
             throw new \Exception('Error al guardar la asistencia.', 500);
         }
     }
+
     protected function updateCheckIn($attendance, $currentTime, $imagePath, $authUser)
     {
         try {
@@ -107,6 +113,7 @@ class AttendanceService {
             throw new \Exception('Error al actualizar el check-in.', 500);
         }
     }
+    
     protected function updateCheckOut($attendance, $currentTime, $imagePath)
     {
         try {

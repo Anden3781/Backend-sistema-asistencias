@@ -44,6 +44,7 @@ class UserService
             throw new \Exception('Error al obtener los usuarios filtrados.', 500);
         }
     }
+
     public function getUserDetails($id)
     {
         try {
@@ -67,6 +68,7 @@ class UserService
             throw new \Exception('Error al obtener los detalles del usuario.', 500);
         }
     }
+    
     public function update($user, array $data): User
     {
         try {

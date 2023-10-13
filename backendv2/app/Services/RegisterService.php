@@ -16,6 +16,7 @@ class RegisterService {
     {
         $this->userRepository = $userRepository;
     }
+    
     public function register(array $data): User {
         try {
             $data['password'] = Hash::make($data['dni']);

@@ -20,6 +20,7 @@ class LoginService {
             throw new \Exception('Error al intentar iniciar sesión.', 500);
         }
     }
+
     public function createTokenForUser(User $user): string
     {
         try {
@@ -28,6 +29,7 @@ class LoginService {
             throw new \Exception('Error al crear el token de acceso para el usuario.', 500);
         }
     }
+
     public function getUserByCredentials(array $credentials): ?User
     {
         try {
@@ -36,6 +38,7 @@ class LoginService {
             throw new \Exception('Error al obtener el usuario por las credenciales proporcionadas.', 500);
         }
     }
+    
     public function isUserBlocked(User $user): bool
     {
         try {

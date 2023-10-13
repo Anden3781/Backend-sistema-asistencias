@@ -18,6 +18,7 @@ class ScheduleController extends Controller
             return response()->json(['message' => 'Error al obtener los horarios.'], 500);
         }
     }
+
     public function createSchedule(Request $request)
     {
         try {
@@ -29,6 +30,7 @@ class ScheduleController extends Controller
             return response()->json(['message' => 'Error al crear el horario.'], 500);
         }
     }
+    
     public function checkAttendance(DateTime $currentTime)
     {
         try {
