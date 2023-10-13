@@ -34,6 +34,25 @@ class EvaluationController extends Controller
         }
     }
 
+    public function searchEvaluationById($id){
+        $evaluation = Evaluation::find($id);
+        if ($evaluation) { 
+            return response()->json(['data' => $evaluation]);
+        } else {  
+            return response()->json(['Esta evaluacion no existe, porfavor ingrese otro ID']);
+        }
+    }
+
+    public function searchEvaluationByUser($userId){
+        $evaluation = Evaluation::where('user_id', $userId)->get();
+
+        if (!is_null($evaluation)) { 
+            return response()->json(['data' => $evaluation]);
+        } else {  
+            return response()->json(['message' => 'Esta usuario no tiene asignado ninguna evaluacion']);
+        }
+    }
+
     public function storeNotes(Request $request, $id)
     {
         try {
