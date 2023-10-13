@@ -52,10 +52,16 @@ Route::get('evaluation/list', [App\Http\Controllers\EvaluationController::class,
 Route::post('evaluation/create', [App\Http\Controllers\EvaluationController::class, 'createEvaluation']);
 Route::post('evaluation/notes/{id}', [App\Http\Controllers\EvaluationController::class, 'storeNotes']);
 
+Route::get('evaluation/{id}', [App\Http\Controllers\EvaluationController::class, 'searchEvaluationById']);
+Route::get('evaluation/user/{id}', [App\Http\Controllers\EvaluationController::class, 'searchEvaluationByUser']);
+
 // ---------------- SCHEDULE URL's --------------- //
 Route::get('schedule/list', [App\Http\Controllers\ScheduleController::class, 'getSchedules']);
 Route::post('schedule/check', [App\Http\Controllers\ScheduleController::class, 'checkAttendance']);
 Route::post('schedule/create', [App\Http\Controllers\ScheduleController::class, 'createSchedule']);
+
+// ---------------- REPORTS URL's --------------- //
+Route::get('reports', [App\Http\Controllers\ReportsController::class, 'getReports']);
 
 });
 

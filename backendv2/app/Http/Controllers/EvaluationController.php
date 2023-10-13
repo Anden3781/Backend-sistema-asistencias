@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Evaluation;
 use App\Services\EvaluationService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -32,6 +33,7 @@ class EvaluationController extends Controller
             return response()->json(['message' => 'Error al crear la evaluacion.'], 500);
         }
     }
+
     public function storeNotes(Request $request, $id)
     {
         try {
