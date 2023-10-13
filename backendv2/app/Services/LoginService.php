@@ -11,21 +11,37 @@ class LoginService {
 
     public function attempLogin(array $credentials) 
     {
-        return Auth::attempt($credentials);
+        try {
+            if (Auth::attempt($credentials)) {
+                return true;
+            }
+            return false;
+        } catch (\Exception $e) {
+            throw new \Exception('Error al intentar iniciar sesión.', 500);
+        }
     }
-
     public function createTokenForUser(User $user): string
     {
-        return $user->createToken('User Access Token')->plainTextToken;
+        try {
+            return $user->createToken('User Access Token')->plainTextToken;
+        } catch (\Exception $e) {
+            throw new \Exception('Error al crear el token de acceso para el usuario.', 500);
+        }
     }
-
     public function getUserByCredentials(array $credentials): ?User
     {
-        return User::where('username', $credentials['username'])->first();
+        try {
+            return User::where('username', $credentials['username'])->first();
+        } catch (\Exception $e) {
+            throw new \Exception('Error al obtener el usuario por las credenciales proporcionadas.', 500);
+        }
     }
-
     public function isUserBlocked(User $user): bool
     {
-        return $user->status == 0;
+        try {
+            return $user->status == 0;
+        } catch (\Exception $e) {
+            throw new \Exception('Error al verificar si el usuario está bloqueado.', 500);
+        }
     }
 }
