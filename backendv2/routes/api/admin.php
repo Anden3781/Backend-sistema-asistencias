@@ -60,5 +60,8 @@ Route::get('schedule/list', [App\Http\Controllers\ScheduleController::class, 'ge
 Route::post('schedule/check', [App\Http\Controllers\ScheduleController::class, 'checkAttendance']);
 Route::post('schedule/create', [App\Http\Controllers\ScheduleController::class, 'createSchedule']);
 
+// ---------------- REPORTS URL's --------------- //
+Route::get('reports', [App\Http\Controllers\ReportsController::class, 'getReports']);
+
 });
 
