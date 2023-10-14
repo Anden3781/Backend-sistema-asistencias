@@ -22,13 +22,13 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    public function index(Request $request)
+    public function getAllUsers(Request $request)
     {
         $users = $this->userService->getFilteredUsers($request->all());
         return response()->json($users);
     }
 
-    public function show($id)
+    public function getUsersByID($id)
     {
         $userData = $this->userService->getUserDetails($id);
         if (is_null($userData)) {
@@ -37,7 +37,7 @@ class UserController extends Controller
         return response()->json($userData);
     }
 
-    public function update(UpdateUserRequest $request, $user): JsonResponse
+    public function updateUsers(UpdateUserRequest $request, $user): JsonResponse
     {
         try {
             $user = $this->userService->update($user, $request->validated());

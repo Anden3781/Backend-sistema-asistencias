@@ -14,7 +14,7 @@ class UserService
     public function getFilteredUsers(array $filters): LengthAwarePaginator
     {
         try {
-            $query = User::query()->with('position.core.department', 'roles');
+            $query = User::query()->where('status', true)->with('position.core.department', 'roles');
             if (!empty($filters['shift'])) {
                 $query->whereHas('position', fn ($q) => $q->where('shift', $filters['shift']));
             }

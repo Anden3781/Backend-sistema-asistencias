@@ -40,7 +40,7 @@ class AttendanceController extends Controller
         }
     }
 
-    public function show()
+    public function getAttendancesByID(Request $request)
     {
         try {
             //Recogemos el ID del usuario logeado

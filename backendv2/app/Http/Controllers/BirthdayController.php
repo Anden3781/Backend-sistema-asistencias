@@ -19,16 +19,21 @@ class BirthdayController extends Controller
         try {
             $month = $request->input('m'); // Obtener el valor del parámetro "m" (mes)
             $day = $request->input('d');   // Obtener el valor del parámetro "d" (día), si está presente
-            $query = User::whereMonth('birthday', $month)->with('position.core.department');
+            $query = User::whereMonth('birthday', $month)->where('status', true)->with('position.core.department');
+            
             if (!empty($day)) {
                 $query->whereDay('birthday', $day);
             }
-            $upcomingBirthdays = $query->orderByRaw('DAY(birthday)')->get(); // 'EXTRACT(DAY FROM birthday)'
+
+            $upcomingBirthdays = $query->orderByRaw('EXTRACT(DAY FROM birthday)')->get(); // 'DAY(birthday)'
+            
             // Agregar la URL de la imagen a cada usuario
             foreach ($upcomingBirthdays as $user) {
                 $user->image_url = $user->getImageUrlAttribute();
             }
+
             return response()->json($upcomingBirthdays, 200);
+
         } catch (ModelNotFoundException $e) {
             return response()->json(['message' => 'No se encontraron usuarios con los cumpleaños solicitados'], 404);
         } catch (\Exception $e) {
@@ -43,13 +48,17 @@ class BirthdayController extends Controller
             $upcomingBirthdays = User::whereMonth('birthday', $currentDate->month)->with('position.core.department')
                 ->whereDay('birthday', '>=', $currentDate->day)
                 ->where('shift', $userShift) // Filtrar por turno
-                ->orderByRaw('DAY(birthday)') // 'EXTRACT(DAY FROM birthday)'
+                ->where('status', true)
+                ->orderByRaw('EXTRACT(DAY FROM birthday)') // 'DAY(birthday)'
                 ->get();
+
             // Agregar la URL de la imagen a cada usuario
             foreach ($upcomingBirthdays as $user) {
                 $user->image_url = $user->getImageUrlAttribute();
             }
+
             return response()->json($upcomingBirthdays, 200);
+
         } catch (ModelNotFoundException $e) {
             return response()->json(['message' => 'No se encontraron usuarios con los cumpleaños próximos'], 404);
         } catch (\Exception $e) {
