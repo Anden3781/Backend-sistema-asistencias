@@ -38,8 +38,8 @@ Route::get('users/{id}', [App\Http\Controllers\UserController::class, 'getUsersB
 Route::get('users/{id}/update', [App\Http\Controllers\UserController::class, 'updateUsers']);
 
 // ---------------- BIRTHDAYS URL's ---------------- //
-Route::get('/birthday/details', [\App\Http\Controllers\BirthdayController::class, 'detailsbirthdayMonth']);
-Route::get('/birthday/nextBirthday', [\App\Http\Controllers\BirthdayController::class, 'getUpcomingBirthdaysWithUsers']);
+Route::get('birthday/details', [\App\Http\Controllers\BirthdayController::class, 'detailsbirthdayMonth']);
+Route::get('birthday/nextBirthday', [\App\Http\Controllers\BirthdayController::class, 'getUpcomingBirthdaysWithUsers']);
 
 // ---------------- ATTENDANCES URL's --------------- //
 Route::get('attendance/list', [App\Http\Controllers\AttendanceController::class, 'getAttendances']);
