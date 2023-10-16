@@ -36,9 +36,7 @@ class BirthdayController extends Controller
 
         } catch (ModelNotFoundException $e) {
             return response()->json(['message' => 'No se encontraron usuarios con los cumpleaños solicitados'], 404);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Ocurrió un error al obtener los cumpleaños'], 500);
-        }
+        } 
     }
     
     public function getUpcomingBirthdaysWithUsers() {
@@ -60,10 +58,8 @@ class BirthdayController extends Controller
             return response()->json($upcomingBirthdays, 200);
 
         } catch (ModelNotFoundException $e) {
-            return response()->json(['message' => 'No se encontraron usuarios con los cumpleaños próximos'], 404);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Ocurrio un error al obtener los cumpleaños próximos'], 500);
-        }
+            return response()->json(['message' => 'No se encontraron usuarios con los cumpleaños proximos'], 404);
+        } 
     }
 
 }
