@@ -83,19 +83,19 @@ class UserService
                     $user->syncRoles([$role->name]); // Asignar el nuevo rol
                 }
             }
-            if (isset($data['image'])) {
-                $archivo = $data['image'];
-                $ruta = 'photos/' . $user->id; // Ruta con el ID del usuario
-                $nombreArchivo = $archivo->getClientOriginalName();
-                $archivo->move($ruta, $nombreArchivo);
-                if ($user->image && $user->image !== $nombreArchivo) {
-                    $ruta_anterior = public_path('photos/' . $user->id . '/' . $user->image);
-                    if (file_exists($ruta_anterior)) {
-                        unlink($ruta_anterior); // Eliminar la imagen anterior
-                    }
-                }
-                $data['image'] = $nombreArchivo;
-            }
+            // if (isset($data['image'])) {
+            //     $archivo = $data['image'];
+            //     $ruta = 'photos/' . $user->id; // Ruta con el ID del usuario
+            //     $nombreArchivo = $archivo;
+            //     $archivo->move($ruta, $nombreArchivo);
+            //     if ($user->image && $user->image !== $nombreArchivo) {
+            //         $ruta_anterior = public_path('photos/' . $user->id . '/' . $user->image);
+            //         if (file_exists($ruta_anterior)) {
+            //             unlink($ruta_anterior); // Eliminar la imagen anterior
+            //         }
+            //     }
+            //     $data['image'] = $nombreArchivo;
+            // }
             $user->update($data);
             return $user;
         } catch (ModelNotFoundException $e) {

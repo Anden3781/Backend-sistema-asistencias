@@ -10,5 +10,5 @@ class NotificationController extends Controller
     public function getNotifications() {
         $notifications = Notifications::all();
         return response()->json($notifications);
-    }
+    } 
 }

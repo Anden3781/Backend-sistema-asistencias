@@ -35,7 +35,7 @@ Route::post('justification/decline/{id}', [App\Http\Controllers\JustificationCon
 // ---------------- USERS URL´s ---------------------- //
 Route::get('users/list', [App\Http\Controllers\UserController::class, 'getAllUsers']);
 Route::get('users/{id}', [App\Http\Controllers\UserController::class, 'getUsersByID']);
-Route::get('users/{id}/update', [App\Http\Controllers\UserController::class, 'updateUsers']);
+Route::post('users/{id}/update', [App\Http\Controllers\UserController::class, 'updateUsers']);
 
 // ---------------- BIRTHDAYS URL's ---------------- //
 Route::get('birthday/details', [\App\Http\Controllers\BirthdayController::class, 'detailsbirthdayMonth']);

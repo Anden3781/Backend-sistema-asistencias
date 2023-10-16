@@ -37,14 +37,15 @@ class UserController extends Controller
         return response()->json($userData);
     }
 
-    public function updateUsers(UpdateUserRequest $request, $user): JsonResponse
+    public function updateUsers(Request $request, $user): JsonResponse
     {
         try {
-            $user = $this->userService->update($user, $request->validated());
+            $user = $this->userService->update($user, $request->all());
 
             return response()->json([
                 'message' => 'User updated successfully',
             ], 200);
+
         } catch (\Exception $e) {
             print ($e);
             return response()->json(['error' => 'User update failed'], 500);
