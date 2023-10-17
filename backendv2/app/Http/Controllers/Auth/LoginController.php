@@ -28,6 +28,7 @@ class LoginController extends Controller
             }
             
             $loggedInUser = auth()->user();
+
             if (!$loggedInUser instanceof User) {
                 // Manejar el caso cuando $loggedInUser no es una instancia de User
                 return response()->json(['message' => 'El usuario autenticado no es válido'], 403);
@@ -40,11 +41,14 @@ class LoginController extends Controller
             $user = User::where('username', $request['username'])->first(['id','name','surname','image', 'shift']);
             $role = $loggedInUser->roles->first();
             
+            
+
             return response()->json([
                 'access_token' => $token,
                 'user' => $user,
                 'role' => $role
             ]);
+
         } catch (ValidationException $e) {
             // Manejar excepciones de validación
             return response()->json(['message' => $e->getMessage()], 422);
